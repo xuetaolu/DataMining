@@ -1,0 +1,1 @@
+python kmean.py -f DATASET.csv -k 2 -i 200

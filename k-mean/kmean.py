@@ -2,9 +2,13 @@
 from optparse import OptionParser
 from math import sqrt
 from collections import defaultdict
+import matplotlib.pyplot as plt
+
 
 import random
 import sys
+
+
 
 def figureCost(pointLists):
 
@@ -56,8 +60,16 @@ def runKmean(input, output, k, tryCount=10):
       else:
           pass
           # print('Count: ', i + 1, ' ', 'Cost: ', cost_tmp)
-
-  dataToFile(output, res)
+ 
+  if output is not None:
+      dataToFile(output, res)
+      print("finish, Output to file : ", options.output)
+  
+  color = list("bgrcmykw")
+  plt.figure()
+  for i in range(len(res)):
+      plt.scatter(*list(zip(*res[i])), c=color[i%len(color)])
+  plt.show()
 
   return res, cost
 
@@ -105,7 +117,7 @@ if __name__ == '__main__':
 
   (options, args) = optparser.parse_args()
 
-  if options.input is None or options.output is None:
+  if options.input is None:
       usage = \
 """
   Usage:
@@ -119,5 +131,3 @@ if __name__ == '__main__':
   else:
 
     res, cost = runKmean(options.input, options.output, options.k, options.iterations)
-
-    print("finish, Output to file : ", options.output)
